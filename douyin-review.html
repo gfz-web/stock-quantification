@@ -426,22 +426,6 @@
         font-size: 0.65rem;
         color: #636e72;
       }
-
-      .action-btn {
-        position: fixed;
-        bottom: 100px;
-        right: 16px;
-        width: 56px;
-        height: 56px;
-        background: linear-gradient(145deg, #ff6b6b, #feca57);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-        box-shadow: 0 4px 20px rgba(255, 107, 107, 0.5);
-        z-index: 100;
-      }
     </style>
   </head>
   <body>
@@ -541,8 +525,6 @@
       <div class="copy">数据来源：新浪财经 | 分析模型：5指标恐贪指数</div>
     </div>
 
-    <div class="action-btn">❤️</div>
-
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const cards = document.querySelectorAll(".point-card, .pred-item");
@@ -554,14 +536,6 @@
             card.style.opacity = "1";
             card.style.transform = "scale(1)";
           }, index * 80);
-        });
-
-        const actionBtn = document.querySelector(".action-btn");
-        actionBtn.addEventListener("click", () => {
-          actionBtn.style.transform = "scale(1.2)";
-          setTimeout(() => {
-            actionBtn.style.transform = "scale(1)";
-          }, 200);
         });
       });
     </script>
