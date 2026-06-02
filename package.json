@@ -5,6 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
+    "serve": "node server.js",
+    "build:netlify": "node scripts/build-netlify.mjs",
     "multi": "node src/multiGreed.js",
     "strategy": "node src/tradingStrategy.js",
     "ma5Backtest": "node src/ma5Backtest.js",
