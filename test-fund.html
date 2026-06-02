@@ -165,6 +165,59 @@
         font-size: 18px;
         color: #7f8c8d;
       }
+
+      .input-section {
+        background-color: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .input-group label {
+        font-weight: 600;
+        color: #2c3e50;
+        font-size: 14px;
+      }
+
+      .input-group input {
+        padding: 8px 12px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        font-size: 14px;
+        min-width: 150px;
+      }
+
+      .input-group input:focus {
+        outline: none;
+        border-color: #3498db;
+        box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+      }
+
+      .submit-btn {
+        padding: 8px 20px;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+        font-weight: 600;
+        align-self: flex-end;
+      }
+
+      .submit-btn:hover {
+        background-color: #2980b9;
+      }
     </style>
   </head>
   <body>
@@ -174,6 +227,18 @@
         生成时间:
         <span id="current-time"></span>
       </p>
+
+      <div class="input-section">
+        <div class="input-group">
+          <label for="product-code">产品代码</label>
+          <input type="text" id="product-code" placeholder="如：sh510300" value="sh510300" />
+        </div>
+        <div class="input-group">
+          <label for="product-name">产品名称</label>
+          <input type="text" id="product-name" placeholder="如：沪深300" value="沪深300" />
+        </div>
+        <button class="submit-btn" onclick="runBacktest()">开始回测</button>
+      </div>
 
       <div class="overview">
         <h2>策略概览</h2>
@@ -242,7 +307,7 @@
 
     <script>
       // 指数配置
-      const INDICES = [{symbol: 'sh510300', name: '沪深300' }]
+      let CURRENT_INDEX = { symbol: 'sh510300', name: '沪深300' }
 
       // const testDate = ['2021-02-18', '2024-09-23'] // 测试时间范围   数组第一个开始时间，第二个参数没有则默认使用当天时间
       const testDate = ['2025-08-08', '']
@@ -358,7 +423,7 @@
         const indexEl = document.getElementById('overview-index-name')
         const periodEl = document.getElementById('overview-backtest-period')
         const s5El = document.getElementById('overview-strategy5')
-        if (indexEl) indexEl.textContent = `回测标的：${INDICES[0].name}`
+        if (indexEl) indexEl.textContent = `回测标的：${CURRENT_INDEX.name} (${CURRENT_INDEX.symbol})`
         if (periodEl) periodEl.textContent = `回测期间：${start} 至 ${end}`
         if (s5El) s5El.textContent = `策略5：从${start}到${end}一直持有`
       }
@@ -2988,6 +3053,24 @@
         }
       }
 
+      function runBacktest() {
+        const code = document.getElementById('product-code').value.trim()
+        const name = document.getElementById('product-name').value.trim()
+
+        if (!code) {
+          alert('请输入产品代码')
+          return
+        }
+
+        if (!name) {
+          alert('请输入产品名称')
+          return
+        }
+
+        CURRENT_INDEX = { symbol: code, name: name }
+        main()
+      }
+
       // 主函数
       async function main() {
         const container = document.querySelector('.container')
@@ -2999,7 +3082,7 @@
         updateOverviewBacktestPeriod()
 
         try {
-          const index = INDICES[0]
+          const index = CURRENT_INDEX
           const dailyData = await fetchDailyData(index.symbol)
           const index000001Data = await fetchDailyData('sh000001')
           updateOverviewBacktestPeriod(dailyData[dailyData.length - 1].date)
@@ -3251,8 +3334,11 @@
         }
       }
 
-      // 页面加载完成后执行
-      window.addEventListener('DOMContentLoaded', main)
+      // 页面加载完成后，初始化界面但不自动执行回测，等待用户输入
+      window.addEventListener('DOMContentLoaded', () => {
+        updateOverviewBacktestPeriod()
+        document.getElementById('current-time').textContent = new Date().toLocaleString()
+      })
     </script>
   </body>
 </html>
