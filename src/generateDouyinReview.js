@@ -106,7 +106,7 @@ function generateHTML (fg, latestData, change, isUp, high, low, predictionData) 
 
     predictionSection = `
   <div class="prediction-review">
-    <div class="title"><span>🎯</span> 昨日预测 vs 今日实际</div>
+    <div class="title"><span>🎯</span> 昨日预测<br/>vs 今日实际</div>
     <div class="pred-list">
       ${itemsHtml}
     </div>
@@ -206,18 +206,6 @@ function generateHTML (fg, latestData, change, isUp, high, low, predictionData) 
       <div class="subtitle">缠论视角 · 精准解读</div>
       <div class="date">${new Date().toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' })}</div>
       <div class="time">收盘分析 · 数据来源：新浪财经</div>
-    </div>
-  </div>
-
-  <div class="price-badge">
-    <div class="main">
-      <div class="num">${latestData.close.toFixed(2)}</div>
-      <div class="change ${isUp ? 'up' : 'down'}">${isUp ? '↑' : '↓'} ${isUp ? '' : ''}${change}%</div>
-    </div>
-    <div class="price-row">
-      <div class="item"><div class="label">今日高点</div><div class="value" style="color:#ff6b6b">${high.toFixed(2)}</div></div>
-      <div class="item"><div class="label">今日低点</div><div class="value" style="color:#00ff88">${low.toFixed(2)}</div></div>
-      <div class="item"><div class="label">振幅</div><div class="value" style="color:#feca57">${((high - low) / low * 100).toFixed(2)}%</div></div>
     </div>
   </div>
 
