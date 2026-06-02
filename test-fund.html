@@ -237,6 +237,14 @@
           <label for="product-name">产品名称</label>
           <input type="text" id="product-name" placeholder="如：沪深300" value="沪深300" />
         </div>
+        <div class="input-group">
+          <label for="start-date">开始日期</label>
+          <input type="date" id="start-date" value="2025-08-08" />
+        </div>
+        <div class="input-group">
+          <label for="end-date">结束日期</label>
+          <input type="date" id="end-date" />
+        </div>
         <button class="submit-btn" onclick="runBacktest()">开始回测</button>
       </div>
 
@@ -308,9 +316,7 @@
     <script>
       // 指数配置
       let CURRENT_INDEX = { symbol: 'sh510300', name: '沪深300' }
-
-      // const testDate = ['2021-02-18', '2024-09-23'] // 测试时间范围   数组第一个开始时间，第二个参数没有则默认使用当天时间
-      const testDate = ['2025-08-08', '']
+      let testDate = ['2025-08-08', ''] // 测试时间范围   数组第一个开始时间，第二个参数没有则默认使用当天时间
 
       // 计算30天前的日期
       function getDateMinus30Days(dateStr) {
@@ -3056,6 +3062,8 @@
       function runBacktest() {
         const code = document.getElementById('product-code').value.trim()
         const name = document.getElementById('product-name').value.trim()
+        const startDate = document.getElementById('start-date').value.trim()
+        const endDate = document.getElementById('end-date').value.trim()
 
         if (!code) {
           alert('请输入产品代码')
@@ -3067,7 +3075,13 @@
           return
         }
 
+        if (!startDate) {
+          alert('请输入开始日期')
+          return
+        }
+
         CURRENT_INDEX = { symbol: code, name: name }
+        testDate = [startDate, endDate || '']
         main()
       }
 
