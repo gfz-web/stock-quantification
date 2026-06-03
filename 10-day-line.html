@@ -313,7 +313,7 @@
 
       const STRATEGY_PARAMS = {
         INITIAL_CASH: 100000,
-        START_DATE: '2024-12-10', // 提前30天获取数据，用于计算移动平均线
+        START_DATE: '2024-01-01', // 与multiGreed.js保持一致，确保恐贪指数计算同步
         TRADE_START_DATE: '2025-12-31', // 实际交易开始日期
         TRANSACTION_COST: 0, // 每笔交易0.0075%（万0.75）
       }
@@ -426,8 +426,8 @@
           // 使用腾讯财经API获取日线数据
           const startDate = STRATEGY_PARAMS.START_DATE
           const today = new Date().toISOString().split('T')[0]
-          const endDate = getPreviousTradingDay(today) // 获取前一个交易日
-          const limit = 1200
+          const endDate = getPreviousTradingDay(today) // 直接使用今天作为结束日期，获取最新数据
+          const limit = 2000 // 与multiGreed.js保持一致
 
           const url = `https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?_var=kline_dayqfq&param=${symbol},day,${startDate},${endDate},${limit},qfq`
           console.log(`正在获取历史数据: ${url}`)
